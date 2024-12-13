@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+        .email-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 20px 0;
+        }
+        .invoice {
+            background-color: white;
+            width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin: auto;
+        }
+
+        .invoice-header {
+            text-align: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+
+        .invoice-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .invoice-header p {
+            color: #888;
+            margin: 5px 0 0;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .profile, .from-to {
+            width: 48%;
+        }
+
+        .profile img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .from-to p {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .invoice-items {
+            border-top: 1px solid #eee;
+            border-bottom: 1px solid #eee;
+            padding: 10px 0;
+        }
+
+        .item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .item img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+
+        .item-details {
+            flex-grow: 1;
+        }
+
+        .item-price, .item-quantity {
+            margin: 0 10px;
+        }
+
+        .invoice-timeline {
+            margin-top: 10px;
+        }
+
+        .invoice-timeline p {
+            font-weight: bold;
+            margin: 0 0 10px;
+        }
+
+        .invoice-timeline ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .invoice-timeline li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 5px;
+        }
+
+        .invoice-timeline span {
+            color: green;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .pdf-button {
+            display: block;
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+        }
+
+        .pdf-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="invoice">
+        <div class="invoice-header">
+            <h1 th:text="${username}"></h1>
+            <p th:text="${dateTime}"></p>
+        </div>
+        <div class="invoice-details">
+            <div class="profile">
+                <img th:src="${profileImg}" alt="Profile Picture">
+                <p th:text="${username}">Username</p>
+                <p>Order id: <span th:text="${orderId}">12345</span></p>
+                <p>Order date: <span th:text="${dateTime}">2023-01-12</span></p>
+            </div>
+            <div class="from-to">
+                <p>From<br><span th:text="${shopName}">Shop Name</span></p>
+                <p>To<br><span th:text="${username}">Username</span><br><span th:text="${shopAddress}">Shop Address</span></p>
+            </div>
+        </div>
+        <div class="invoice-items" >
+            <div th:each="product:${products}" class="item">
+                <img th:src="${product.productImg}" alt="Product Image">
+                <div class="item-details">
+                    <p th:text="${product.productName}">Product Name</p>
+                    <p>Space gray | 32 Gb | 1 TB</p>
+                </div>
+                <p class="item-price" th:text="'$ ' + ${product.unitPrice}"></p>
+                <p class="item-quantity" th:text="'Qty: ' + ${product.qty}"></p>
+            </div>
+        </div>
+        <div class="invoice-timeline">
+            <p>Timeline</p>
+            <ul>
+                <li><span>✔</span> Send<br>Jan 12, 2023 8:30am sent to: saok@gmail.com</li>
+                <li><span>✔</span> Invoice email opened<br>Jan 12, 2023 8:35am</li>
+                <li><span>✔</span> Paid<br>Jan 12, 2023 8:50am</li>
+            </ul>
+        </div>
+        <a href="#" class="pdf-button">PDF</a>
+    </div>
+</div>
+</body>
+</html>
